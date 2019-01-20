@@ -55,8 +55,6 @@ COPY run /usr/local/bin/
 #custom .vimrc stub
 RUN mkdir -p /ext  && echo " " > /ext/.vimrc
 
-COPY .vimrc $UHOME/my.vimrc
-
 # Vim plugins deps
 RUN apk --update add \
     bash \
@@ -144,7 +142,11 @@ RUN cd $UHOME/bundle/ \
 # Theme
     && git clone --depth 1 \
     https://github.com/altercation/vim-colors-solarized
-    
+
+ARG INCUBATOR_VER=unknown
+
+COPY .vimrc $UHOME/my.vimrc
+
 # Build default .vimrc
 RUN  mv -f $UHOME/.vimrc $UHOME/.vimrc~ \
      && curl -s \

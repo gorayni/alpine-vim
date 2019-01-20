@@ -51,18 +51,21 @@ set grepprg=/bin/grep\ -nH
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeWinPos = "right"
-let g:NERDTreeWinSize=50
+let g:NERDTreeWinPos = "left"
+let g:NERDTreeWinSize=30
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark 
 map <leader>nf :NERDTreeFind<cr>
 let NERDTreeShowHidden=1
-
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree Tabs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists(“s:std_in”) | NERDTree | endif
+autocmd vimenter * NERDTree
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => TagBar
@@ -73,24 +76,6 @@ nmap <F8> :TagbarToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-go
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>s <Plug>(go-implements)
-au FileType go nmap <Leader>i <Plug>(go-info)
-au FileType go nmap <Leader>e <Plug>(go-rename)
-
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -124,6 +109,7 @@ nnoremap <Leader>, :bp<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => color and theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
 set relativenumber
