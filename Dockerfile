@@ -1,9 +1,52 @@
-FROM jare/alpine-vim:latest
+FROM alpine:edge as builder
+
+MAINTAINER JAremko <w3techplaygound@gmail.com>
+
+WORKDIR /tmp
+
+# Install dependencies
+RUN apk add --no-cache \
+    build-base \
+    ctags \
+    git \
+    libx11-dev \
+    libxpm-dev \
+    libxt-dev \
+    make \
+    ncurses-dev \
+    python \
+    python-dev
+
+# Build vim from git source
+RUN git clone https://github.com/vim/vim \
+ && cd vim \
+ && ./configure \
+    --disable-gui \
+    --disable-netbeans \
+    --enable-multibyte \
+    --enable-pythoninterp \
+    --with-features=big \
+    --with-python-config-dir=/usr/lib/python2.7/config \
+ && make install
+ 
+FROM alpine:edge
+ 
+ COPY --from=builder /usr/local/bin/ /usr/local/bin
+ COPY --from=builder /usr/local/share/vim/ /usr/local/share/vim/
+ # NOTE: man page is ignored
+ 
+ RUN apk add --no-cache \
+    diffutils \
+    libice \
+    libsm \
+    libx11 \
+    libxt \
+    ncurses
 
 # User config
-ENV UID="1000" \
+ENV UID="1001" \
     UNAME="developer" \
-    GID="1000" \
+    GID="1001" \
     GNAME="developer" \
     SHELL="/bin/bash" \
     UHOME=/home/developer
@@ -134,7 +177,7 @@ RUN cd $UHOME/bundle/ \
     && git clone --depth 1 https://github.com/vim-scripts/mru.vim \
     && git clone --depth 1 https://github.com/vim-scripts/YankRing.vim \
     && git clone --depth 1 https://github.com/tpope/vim-haml \
-    && git clone --depth 1 https://github.com/SirVer/ultisnips \
+#    && git clone --depth 1 https://github.com/SirVer/ultisnips \
     && git clone --depth 1 https://github.com/honza/vim-snippets \
     && git clone --depth 1 https://github.com/derekwyatt/vim-scala \
     && git clone --depth 1 https://github.com/christoomey/vim-tmux-navigator \
